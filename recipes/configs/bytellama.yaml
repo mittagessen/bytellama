@@ -17,6 +17,7 @@
 # Tokenizer
 tokenizer:
   _component_: bytellama.builder.octet_tokenizer
+  max_seq_len: 2048
 
 # Dataset
 dataset:
@@ -24,7 +25,6 @@ dataset:
   source: allenai/c4
   column: text
   split: train
-  max_seq_len: 2048
 seed: null
 shuffle: True
 

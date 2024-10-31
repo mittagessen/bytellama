@@ -20,7 +20,7 @@ class OctetTokenizer(BaseTokenizer):
         [1, 31587, 29644, 102, 2]
     """
 
-    def __init__(self,):
+    def __init__(self):
         self.pad_id = 0
         self.bos_id = 1
         self.eos_id = 2
