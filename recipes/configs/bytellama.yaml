@@ -25,6 +25,7 @@ dataset:
   source: allenai/c4
   column: text
   split: train
+  datadir: multilingual
 seed: null
 shuffle: True
 
