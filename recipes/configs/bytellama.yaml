@@ -24,7 +24,7 @@ dataset:
   source: allenai/c4
   column: text
   split: train
-  max_seq_len: 4096
+  max_seq_len: 2048
 
 # Model Arguments
 model:
