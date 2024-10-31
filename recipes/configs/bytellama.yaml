@@ -33,10 +33,10 @@ model:
   _component_: bytellama.builder.byte_llama
 
 checkpointer:
-  _component_: torchtune.training.FullModelHFCheckpointer
+  _component_: torchtune.training.FullModelTorchTuneCheckpointer
   checkpoint_dir: /tmp/bytellama/
   checkpoint_files: [
-    model.safetensors
+    model.pt
   ]
   recipe_checkpoint: null
   output_dir: /tmp/bytellama
