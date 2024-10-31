@@ -1,0 +1,74 @@
+# Config for multi-device pretraining in full_finetune_distributed.py using a
+# Llama3.2 100M model
+#
+# To launch on 4 devices, run the following command from root:
+#   tune run --nproc_per_node 4 full_finetune_distributed --config bytellama.yaml
+#
+# You can add specific overrides through the command line. For example
+# to override the checkpointer directory while launching training
+# you can run:
+#   tune run --nproc_per_node 4 full_finetune_distributed --config bytellama checkpointer.checkpoint_dir=<YOUR_CHECKPOINT_DIR>
+#
+# This config works best when the model is being fine-tuned on 2+ GPUs.
+# Single device full finetuning requires more memory optimizations. It's
+# best to use 1B_full_single_device.yaml for those cases
+
+
+# Tokenizer
+tokenizer:
+  _component_: bytellama.builder.octet_tokenizer
+
+# Dataset
+dataset:
+  packed: False # Set to true for great speed ups
+  _component_: torchtune.datasets.alpaca_dataset
+seed: null
+shuffle: True
+
+# Model Arguments
+model:
+  _component_: bytellama.builder.byte_llama
+
+checkpointer:
+  _component_: torchtune.training.FullModelHFCheckpointer
+  checkpoint_dir: /tmp/bytellama/
+  checkpoint_files: [
+    model.safetensors
+  ]
+  recipe_checkpoint: null
+  output_dir: /tmp/bytellama
+  model_type: LLAMA3_2
+resume_from_checkpoint: False
+
+# Fine-tuning arguments
+batch_size: 4
+epochs: 3
+
+optimizer:
+  _component_: torch.optim.AdamW
+  lr: 2e-5
+  fused: True
+loss:
+  _component_: torchtune.modules.loss.CEWithChunkedOutputLoss
+max_steps_per_epoch: null
+gradient_accumulation_steps: 4
+
+
+# Training env
+device: cuda
+
+# Memory management
+enable_activation_checkpointing: False
+enable_activation_offloading: False  # True reduces memory
+compile: True # pytorch compile, set to true for perf/memory improvement
+
+# Reduced precision
+dtype: bf16
+
+# Logging
+metric_logger:
+  _component_: torchtune.training.metric_logging.DiskLogger
+  log_dir: ${output_dir}
+output_dir: /tmp/full-bytellama-pretrain
+log_every_n_steps: 1
+log_peak_memory_stats: True
