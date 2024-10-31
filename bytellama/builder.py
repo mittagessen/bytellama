@@ -4,7 +4,7 @@ from torchtune.modules import TransformerDecoder
 from bytellama.tokenizer import OctetTokenizer
 
 
-def octet_tokenizer(*args, **kwargs) -> OctetTokenizer
+def octet_tokenizer(*args, **kwargs) -> OctetTokenizer:
     return OctetTokenizer()
 
 
