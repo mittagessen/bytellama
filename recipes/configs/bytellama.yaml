@@ -20,10 +20,11 @@ tokenizer:
 
 # Dataset
 dataset:
-  packed: False # Set to true for great speed ups
-  _component_: torchtune.datasets.alpaca_dataset
-seed: null
-shuffle: True
+  _component_: torchtune.datasets.text_completion_dataset
+  source: allenai/c4
+  column: text
+  split: train
+  max_seq_len: 4096
 
 # Model Arguments
 model:
@@ -44,15 +45,18 @@ resume_from_checkpoint: False
 batch_size: 4
 epochs: 3
 
+
+# Optimizer and Scheduler
 optimizer:
   _component_: torch.optim.AdamW
-  lr: 2e-5
   fused: True
-loss:
-  _component_: torchtune.modules.loss.CEWithChunkedOutputLoss
+  weight_decay: 0.1
+  lr: 4e-4
+lr_scheduler:
+  _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
+  num_warmup_steps: 2000
 max_steps_per_epoch: null
 gradient_accumulation_steps: 4
-
 
 # Training env
 device: cuda
