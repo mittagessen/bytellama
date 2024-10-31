@@ -25,6 +25,8 @@ dataset:
   column: text
   split: train
   max_seq_len: 2048
+seed: null
+shuffle: True
 
 # Model Arguments
 model:
