@@ -45,18 +45,24 @@ resume_from_checkpoint: False
 batch_size: 4
 epochs: 3
 
-
 # Optimizer and Scheduler
 optimizer:
   _component_: torch.optim.AdamW
   fused: True
   weight_decay: 0.1
   lr: 4e-4
+optimizer_in_bwd: False
+
 lr_scheduler:
   _component_: torchtune.training.lr_schedulers.get_cosine_schedule_with_warmup
   num_warmup_steps: 2000
 max_steps_per_epoch: null
 gradient_accumulation_steps: 4
+
+# Loss
+loss:
+  _component_: torchtune.modules.loss.CEWithChunkedOutputLoss
+clip_grad_norm: 1.0
 
 # Training env
 device: cuda
