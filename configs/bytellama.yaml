@@ -1,5 +1,5 @@
 # Config for multi-device pretraining in full_finetune_distributed.py using a
-# Llama3.2 100M model
+# Llama3.2 100M model with octet tokenization, aka ByteLlama
 #
 # To launch on 4 devices, run the following command from root:
 #   tune run --nproc_per_node 4 full_finetune_distributed --config bytellama.yaml
@@ -9,10 +9,9 @@
 # you can run:
 #   tune run --nproc_per_node 4 full_finetune_distributed --config bytellama checkpointer.checkpoint_dir=<YOUR_CHECKPOINT_DIR>
 #
-# This config works best when the model is being fine-tuned on 2+ GPUs.
-# Single device full finetuning requires more memory optimizations. It's
-# best to use 1B_full_single_device.yaml for those cases
-
+# ByteLlama is *tiny*. You can fit it with batch size of 32 onto a A40 GPU when
+# using bf16 precision. To adjust to your actual available memory:
+#   tune run --nproc_per_node 4 full_finetune_distributed --config bytellama batch_size=32
 
 # Tokenizer
 tokenizer:
@@ -20,6 +19,8 @@ tokenizer:
   max_seq_len: 2048
 
 # Dataset
+# This is a moderately sized synthetic dataset. Our actual dataset is the mc4
+# corpus.
 dataset:
   _component_: torchtune.datasets.text_completion_dataset
   source: HuggingFaceTB/smollm-corpus
@@ -45,7 +46,7 @@ checkpointer:
 resume_from_checkpoint: False
 
 # Fine-tuning arguments
-batch_size: 4
+batch_size: 32
 epochs: 3
 
 # Optimizer and Scheduler
