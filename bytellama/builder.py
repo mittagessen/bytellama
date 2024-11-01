@@ -5,7 +5,7 @@ from bytellama.tokenizer import OctetTokenizer
 
 
 def octet_tokenizer(*args, **kwargs) -> OctetTokenizer:
-    return OctetTokenizer()
+    return OctetTokenizer(*args, **kwargs)
 
 
 def byte_llama() -> TransformerDecoder:
