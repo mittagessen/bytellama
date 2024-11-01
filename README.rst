@@ -42,4 +42,12 @@ automatic download of the dataset) from the root directory of the git repository
 
 
 ByteLlama is *tiny*. It can fit a batch size of 32 onto a A40 GPU when
-using bf16 precision. To adjust to your actual available memory.
+using bf16 precision. The batch size can be adjusted to your resources like so:
+
+::
+
+         tune run --nproc_per_node 4 full_finetune_distributed \
+                --config configs/bytellama.yaml \
+                checkpointer.checkpoint_dir=~/bitey_llamas \
+                checkpointer.output_dir=~/bitey_llamas \
+                batch_size=8
