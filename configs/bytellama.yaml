@@ -22,10 +22,10 @@ tokenizer:
 # Dataset
 dataset:
   _component_: torchtune.datasets.text_completion_dataset
-  source: allenai/c4
-  column: text
+  source: HuggingFaceTB/smollm-corpus
+  data_dir: cosmopedia-v2
   split: train
-  datadir: multilingual
+  num_proc: 32
 seed: null
 shuffle: True
 
