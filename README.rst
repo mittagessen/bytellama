@@ -2,14 +2,15 @@ Description
 ===========
 
 ByteLlama is a tiny Llama 3.2 model (~101M parameters) using octet
-tokenization. Its primary purpose is to server as a modernized alternative to
+tokenization. Its primary purpose is to serve as a modernized alternative to
 `ByT5 <http://arxiv.org/abs/2105.13626>`_, in particular the small version, in my
 vision experiments but it should work for any application were a small LM
 without the drawbacks of tokenization is necessary.
 
-ByteLlama's hyperparameters were shamelessly pilfered from
-`SmolLM-135M <https://huggingface.co/HuggingFaceTB/SmolLM-135M>`_. The difference
-in parameter count (~34M) comes from the difference in tokenization.
+ByteLlama's hyperparameters were shamelessly pilfered from `SmolLM-135M
+<https://huggingface.co/HuggingFaceTB/SmolLM-135M>`_. The difference in
+parameter count (~34M) comes from the drastically smaller embedding sizes with
+octet tokenization.
 
 This repository contains configuration and tokenization code to train a
 ByteLlama using the torchtune framework.
