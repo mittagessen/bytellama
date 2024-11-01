@@ -6,9 +6,12 @@
 
 from typing import List, Optional
 
-from torchtune.modules.tokenizers._utils import BaseTokenizer
+from torchtune.data import truncate
 
-class OctetTokenizer(BaseTokenizer):
+from torchtune.modules.tokenizers import BaseTokenizer
+from torchtune.modules.transforms import Transform
+
+class OctetTokenizer(BaseTokenizer, Transform):
     """
     A non-trainable tokenizer that simple encodes strings as UTF-8 and uses
     their octets.
@@ -20,11 +23,13 @@ class OctetTokenizer(BaseTokenizer):
         [1, 31587, 29644, 102, 2]
     """
 
-    def __init__(self):
+    def __init__(self, max_seq_len: int):
         self.pad_id = 0
         self.bos_id = 1
         self.eos_id = 2
         self._offset = 3
+
+        self.max_seq_len = max_seq_len
 
     def encode(self,
                text: str,
@@ -47,6 +52,11 @@ class OctetTokenizer(BaseTokenizer):
         tokens.extend([i + self._offset for i in text.encode("utf-8")])
         if add_eos:
             tokens.append(self.eos_id)
+
+        if len(tokens) >= self.max_seq_len:
+            tokens = truncate(tokens,
+                              self.max_seq_len,
+                              self.eos_id if add_eos else None)
         return tokens
 
     def decode(self, ids: List[int]) -> str:
