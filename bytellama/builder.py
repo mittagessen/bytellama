@@ -1,7 +1,7 @@
 from torchtune.models.llama3_2._component_builders import llama3_2
 from torchtune.modules import TransformerDecoder
 
-from bytellama.tokenizer import OctetTokenizer
+from bytellama.tokenizer import OctetTokenizer, TOKEN_NUM
 
 
 def octet_tokenizer(*args, **kwargs) -> OctetTokenizer:
@@ -15,7 +15,7 @@ def byte_llama() -> TransformerDecoder:
     Returns:
         TransformerDecoder: Instantiation of Llama3.2 100M model
     """
-    return llama3_2(vocab_size=259,
+    return llama3_2(vocab_size=TOKEN_NUM,
                     num_layers=30,
                     num_heads=9,
                     num_kv_heads=3,
