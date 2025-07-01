@@ -16,7 +16,7 @@ def byte_llama() -> TransformerDecoder:
         TransformerDecoder: Instantiation of Llama3.2 100M model
     """
     return llama3_2(vocab_size=TOKEN_NUM,
-                    num_layers=30,
+                    num_layers=12,
                     num_heads=9,
                     num_kv_heads=3,
                     embed_dim=576,
