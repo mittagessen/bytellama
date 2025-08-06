@@ -10,18 +10,18 @@ def octet_tokenizer(*args, **kwargs) -> OctetTokenizer:
 
 def byte_llama() -> TransformerDecoder:
     """
-    Builder for creating a Llama3.2 model initialized w/ ~100M parameters
+    Builder for creating a Llama3.2 model initialized w/ ~10M parameters
 
     Returns:
-        TransformerDecoder: Instantiation of Llama3.2 100M model
+        TransformerDecoder: Instantiation of Llama3.2 10M model
     """
     return llama3_2(vocab_size=TOKEN_NUM,
                     num_layers=12,
-                    num_heads=9,
-                    num_kv_heads=3,
-                    embed_dim=576,
+                    num_heads=8,
+                    num_kv_heads=2,
+                    embed_dim=192,
                     max_seq_len=131072,
-                    intermediate_dim=1536,
+                    intermediate_dim=1024,
                     attn_dropout=0.0,
                     norm_eps=1e-5,
                     rope_base=10000,
