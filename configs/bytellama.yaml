@@ -23,8 +23,7 @@ tokenizer:
 # corpus.
 dataset:
   _component_: torchtune.datasets.text_completion_dataset
-  source: HuggingFaceTB/smollm-corpus
-  data_dir: cosmopedia-v2
+  source: /home/mittagessen/git/openiti/ds  # path to dataset directory also works
   split: train
   num_proc: 32
 seed: null
@@ -41,7 +40,7 @@ checkpointer:
     model.pt
   ]
   recipe_checkpoint: null
-  output_dir: /tmp/bytellama
+  output_dir: /tmp/output_models
   model_type: LLAMA3_2
 resume_from_checkpoint: False
 
@@ -85,4 +84,4 @@ metric_logger:
   log_dir: ${output_dir}
 output_dir: /tmp/full-bytellama-pretrain
 log_every_n_steps: 1
-log_peak_memory_stats: True
+log_peak_memory_stats: False
